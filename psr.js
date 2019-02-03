@@ -1,5 +1,6 @@
 let playerScore = 0;
 let computerScore = 0;
+let ties = 0;
 
 function computerPlay() {
     let randomNumber = Math.floor(Math.random()*3);
@@ -28,33 +29,58 @@ function game(playerSelection, computerSelection) {
 
 function youWin(playerSelection, computerSelection) {
     playerScore++
-    console.log("Well done, you chose " + playerSelection + 
+    result.innerHTML = "Well done, you chose " + playerSelection + 
     " and the computer chose " + computerSelection + 
-    " so you win!");
+    " so you win!";
 }
 
 function youLose(playerSelection, computerSelection) {
     computerScore++
-    console.log("Unfortunately, you chose " + playerSelection + 
+    result.innerHTML = "Unfortunately, you chose " + playerSelection + 
     " and the computer chose " + computerSelection + 
-    " so you lose!");
+    " so you lose!";
 }
 
 function youDraw(playerSelection, computerSelection) {
-    console.log("You both selected " + computerSelection +
-    " so it's a tie!");
+    ties++
+    result.innerHTML = "You both selected " + computerSelection +
+    " so it's a tie!";
 }
 
-function playRound() {
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt("Pick rock, paper or scissors.")
-        let computerSelection = computerPlay();
-        (playerSelection.toLowerCase() === computerSelection) ? i-- : i;
-        game(playerSelection, computerSelection);
-        console.log("Your score: " + playerScore + 
-        ". Computer score: " + computerScore);
-    }
-    (playerScore >computerScore) ? console.log("You win!") : console.log("You lose!");
+function playRound(playerSelection) {
+  let computerSelection = computerPlay();
+  (playerSelection.toLowerCase() === computerSelection)
+  game(playerSelection, computerSelection);
+  scores.innerHTML = "Your score: " + playerScore + 
+    ". Computer score: " + computerScore + ". Ties: " + ties;
 }
+const body = document.querySelector("body");
 
-playRound();
+const rock = document.createElement('button');
+rock.setAttribute('id', 'rock');
+rock.innerHTML = "Rock";
+rock.addEventListener('click', function (e) {
+  playRound("rock");
+})
+body.appendChild(rock);
+
+const paper = document.createElement('button');
+paper.setAttribute('id', 'paper');
+paper.innerHTML = "Paper";
+paper.addEventListener('click', function (e) {
+  playRound("paper");
+})
+body.appendChild(paper);
+
+const scissors = document.createElement('button');
+scissors.setAttribute('id', 'scissors');
+scissors.innerHTML = "Scissors";
+scissors.addEventListener('click', function (e) {
+  playRound("scissors");
+})
+body.appendChild(scissors);
+
+const result = document.createElement('div');
+const scores = document.createElement('p');
+body.appendChild(result);
+body.appendChild(scores);
